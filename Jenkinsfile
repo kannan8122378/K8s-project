@@ -19,7 +19,8 @@ pipeline {
                     credentialsId: 'dockerhub-creds',
                     usernameVariable: 'USER',
                     passwordVariable: 'PASS')]) {
-                    bat 'echo %PASS% | docker login -u %USER% --password-stdin'
+
+                    bat 'docker login -u %USER% -p %PASS%'
                     bat 'docker push %DOCKER_IMAGE%:latest'
                 }
             }
@@ -27,7 +28,7 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f deployment.yaml'
+                bat 'kubectl apply -f deployment.yaml'
             }
         }
     }
