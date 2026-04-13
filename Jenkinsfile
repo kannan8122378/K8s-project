@@ -9,7 +9,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:latest .'
+                bat 'docker build -t $DOCKER_IMAGE:latest .'
             }
         }
 
@@ -19,8 +19,8 @@ pipeline {
                     credentialsId: 'dockerhub-creds',
                     usernameVariable: 'USER',
                     passwordVariable: 'PASS')]) {
-                    sh 'echo $PASS | docker login -u $USER --password-stdin'
-                    sh 'docker push $DOCKER_IMAGE:latest'
+                    bat 'echo $PASS | docker login -u $USER --password-stdin'
+                    bat 'docker push $DOCKER_IMAGE:latest'
                 }
             }
         }
